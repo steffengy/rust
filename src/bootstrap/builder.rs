@@ -249,11 +249,11 @@ impl<'a> Builder<'a> {
                 tool::UnstableBookGen, tool::Tidy, tool::Linkchecker, tool::CargoTest,
                 tool::Compiletest, tool::RemoteTestServer, tool::RemoteTestClient,
                 tool::RustInstaller, tool::Cargo, tool::Rls, tool::Rustdoc,
-                native::Llvm),
+                native::Llvm, tool::Miri),
             Kind::Test => describe!(check::Tidy, check::Bootstrap, check::DefaultCompiletest,
                 check::HostCompiletest, check::Crate, check::CrateLibrustc, check::Linkcheck,
                 check::Cargotest, check::Cargo, check::Rls, check::Docs, check::ErrorIndex,
-                check::Distcheck),
+                check::Distcheck, check::Miri),
             Kind::Bench => describe!(check::Crate, check::CrateLibrustc),
             Kind::Doc => describe!(doc::UnstableBook, doc::UnstableBookGen, doc::TheBook,
                 doc::Standalone, doc::Std, doc::Test, doc::Rustc, doc::ErrorIndex, doc::Nomicon,
@@ -475,6 +475,7 @@ impl<'a> Builder<'a> {
              } else {
                  PathBuf::from("/path/to/nowhere/rustdoc/not/required")
              })
+             .env("TEST_MIRI", self.config.test_miri.to_string())
              .env("RUSTC_FLAGS", self.rustc_flags(target).join(" "));
 
         if mode != Mode::Tool {

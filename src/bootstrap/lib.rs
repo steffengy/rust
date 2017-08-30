@@ -164,6 +164,7 @@ pub mod util;
 mod builder;
 mod cache;
 mod tool;
+mod failing_tools;
 
 #[cfg(windows)]
 mod job;

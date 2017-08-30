@@ -394,8 +394,9 @@ impl Step for Miri {
     const ONLY_HOSTS: bool = true;
 
     fn should_run(run: ShouldRun) -> ShouldRun {
-        let builder = run.builder;
-        run.path("src/tools/miri").default_condition(builder.build.config.test_miri)
+        let build_miri = run.builder.build.config.test_miri &&
+            run.builder.build.config.failing_tools.miri.is_compiling();
+        run.path("src/tools/miri").default_condition(build_miri)
     }
 
     fn make_run(run: RunConfig) {

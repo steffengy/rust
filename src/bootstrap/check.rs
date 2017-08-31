@@ -265,7 +265,7 @@ impl Step for Miri {
 
     fn should_run(run: ShouldRun) -> ShouldRun {
         let test_miri = run.builder.build.config.test_miri &&
-            run.builder.build.config.failing_tools.miri.is_test_suite_passing();
+            run.builder.build.config.toolstate.miri.is_test_suite_passing();
         run.path("src/tools/miri").default_condition(test_miri)
     }
 

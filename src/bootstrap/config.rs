@@ -27,7 +27,7 @@ use util::exe;
 use cache::{INTERNER, Interned};
 use flags::Flags;
 pub use flags::Subcommand;
-use failing_tools::ToolStates;
+use toolstate::ToolStates;
 
 /// Global configuration for the entire build and/or bootstrap.
 ///
@@ -133,7 +133,7 @@ pub struct Config {
     pub initial_cargo: PathBuf,
     pub initial_rustc: PathBuf,
 
-    pub failing_tools: ToolStates,
+    pub toolstate: ToolStates,
 }
 
 /// Per-target configuration stored in the global configuration structure.
@@ -336,14 +336,14 @@ impl Config {
             }
         }).unwrap_or_else(|| TomlConfig::default());
 
-        let parse_failing_tools = || -> Result<_, Box<::std::error::Error>> {
-            let mut f = File::open("failing_tools.toml")?;
+        let parse_toolstate = || -> Result<_, Box<::std::error::Error>> {
+            let mut f = File::open("toolstate.toml")?;
             let mut contents = String::new();
             f.read_to_string(&mut contents)?;
             Ok(toml::from_str(&contents)?)
         };
-        config.failing_tools = parse_failing_tools().unwrap_or_else(|err| {
-            println!("failed to parse TOML configuration 'failing_tools.toml': {}", err);
+        config.toolstate = parse_toolstate().unwrap_or_else(|err| {
+            println!("failed to parse TOML configuration 'toolstate.toml': {}", err);
             process::exit(2);
         });
 

@@ -395,7 +395,7 @@ impl Step for Miri {
 
     fn should_run(run: ShouldRun) -> ShouldRun {
         let build_miri = run.builder.build.config.test_miri &&
-            run.builder.build.config.failing_tools.miri.is_compiling();
+            run.builder.build.config.toolstate.miri.is_compiling();
         run.path("src/tools/miri").default_condition(build_miri)
     }
 

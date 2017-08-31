@@ -45,7 +45,7 @@ impl Default for ToolState {
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Default)]
-/// Used to check `failing_tools.toml` for tools which should not
+/// Used to check `toolstate.toml` for tools which should not
 /// be compiled or tested
 pub struct ToolStates {
     pub miri: ToolState,

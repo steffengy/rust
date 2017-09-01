@@ -337,6 +337,8 @@ impl Config {
         }).unwrap_or_else(|| TomlConfig::default());
 
         let parse_toolstate = || -> Result<_, Box<::std::error::Error>> {
+            let path = env::current_dir().unwrap();
+            println!("The current directory is {}", path.display());
             let mut f = File::open("toolstate.toml")?;
             let mut contents = String::new();
             f.read_to_string(&mut contents)?;
